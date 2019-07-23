@@ -47,18 +47,18 @@ function match_pattern(rule, date) {
   return true
 }
 
+function is_day_of_obligation(date) {
+  // TODO, check if it is day of obligation
+  return false
+}
+
+function pad(n, width, z) {
+  z = z || '0'
+  n = n + ''
+  return n.length >= width ? n : new Array(width - n.length + 1).join(z) + n
+}
+
 function parse_date(date) {
-  function is_day_of_obligation(date) {
-    // TODO, check if it is day of obligation
-    return false
-  }
-
-  function pad(n, width, z) {
-    z = z || '0'
-    n = n + ''
-    return n.length >= width ? n : new Array(width - n.length + 1).join(z) + n
-  }
-
   var d = {}
   d.month = date.getMonth() + 1
   d.year = date.getFullYear()
@@ -90,10 +90,10 @@ function parse_date(date) {
 }
 
 /**
- * Check if the given date matches the given event.
+ * Check if the given date matches the given event. Event is a single item with multiple "advanced" rules.
  */
 function is_on(event, aDate) {
-  date = parse_date(aDate) //this step should be part of the top-level function, so aDate is received as a normal standard date.
+  var date = parse_date(aDate) //this step should be part of the top-level function, so aDate is received as a normal standard date.  // added the "var"
 
   console.log('Queried date is: ', date)
 
