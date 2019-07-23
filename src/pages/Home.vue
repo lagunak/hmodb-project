@@ -46,14 +46,14 @@ export default {
       return new Date(this.dateString)
     },
     fittingEvents() {
-      console.log('check if fitting in ' + this.myDate)
+      console.log('check if fitting in ', this.myDate)
       var outputt = []
       jsonn.events.forEach(elem => {
         if (is_on(elem, new Date(this.myDate))) {
           outputt.push(elem.comment)
         }
       })
-      console.log(outputt)
+      console.log('Matched dates:', outputt)
       return outputt
     },
     advancedData() {

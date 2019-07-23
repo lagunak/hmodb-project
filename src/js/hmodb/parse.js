@@ -58,6 +58,10 @@ function pad(n, width, z) {
   return n.length >= width ? n : new Array(width - n.length + 1).join(z) + n
 }
 
+/**
+ * Convert a js Date into our date format that we use afterwards
+ * @param {date} date - The Date Object of the date to be checked.
+ */
 function parse_date(date) {
   var d = {}
   d.month = date.getMonth() + 1
@@ -91,6 +95,8 @@ function parse_date(date) {
 
 /**
  * Check if the given date matches the given event. Event is a single item with multiple "advanced" rules.
+ * @param event The event Object (parsed json) which represents a single event, with all its advanced rules inside
+ * @param {Date} aDate The date to check against the given event.
  */
 function is_on(event, aDate) {
   var date = parse_date(aDate) //this step should be part of the top-level function, so aDate is received as a normal standard date.  // added the "var"
@@ -112,15 +118,12 @@ function is_on(event, aDate) {
     }
   }
 
-  console.log('Event is on today!')
+  console.log('Event is on date!')
   return true
 }
 
 var today = new Date()
 
-//date = parse_date(today);
-
-//is_on(event, date)
 is_on(event, today)
 
 export default is_on
