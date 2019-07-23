@@ -2,14 +2,14 @@
   <div>
     <f7-page>
       <f7-block>
-        <f7-title>Kaixo</f7-title>
+        <f7-title>Kaixo... we will get there :)</f7-title>
       </f7-block>
     </f7-page>
   </div>
 </template>
 
 <script>
-export default {};
+export default {}
 </script>
 
 <style lang="scss" scoped>
