@@ -8,7 +8,7 @@ Framework7 app created with following options:
 
 ```
 {
-  "cwd": "C:\\Users\\sopena\\Desktop\\alex\\webProjects\\cm",
+  "cwd": "",
   "type": [
     "web"
   ],
