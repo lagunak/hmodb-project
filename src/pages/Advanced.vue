@@ -15,7 +15,7 @@
           :link="'/pattern/' + JSON.stringify(ad)"
         ></f7-list-item>
       </f7-list>
-      <f7-button fill href="/pattern/xxx">Add new...</f7-button>
+      <f7-button fill href="/pattern/xxx2">Add new...</f7-button>
     </f7-page>
   </div>
 </template>
