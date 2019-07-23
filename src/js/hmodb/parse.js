@@ -103,19 +103,28 @@ function parse_date(date) {
 
 /**
  * Check if the given date matches the given event. Event is a single item with multiple "advanced" rules.
+ * Note: Timezones may mess up with all this...
  * @param event The event Object (parsed json) which represents a single event, with all its advanced rules inside
  * @param {Date} aDate The date to check against the given event.
  */
 function is_on(event, aDate) {
+  //---------------- override for testing -------------------------
+
   var overrideDate = new Date('2019-07-24')
+  overrideDate.setHours(0, 0, 0) //to force local
+  var aDate_time = aDate.getTime()
+  var override_time = overrideDate.getTime()
+
   console.log(
-    'comparing... ' + aDate.getTime() + ' vs ' + overrideDate.getTime()
+    '--------- is_on ' + aDate_time + ' vs ' + override_time + '------------'
   )
+
   if (aDate.getTime() == overrideDate.getTime()) {
-    console.log('overrideee........!!!!!')
+    console.log('OVERRRRIDDEEEEEEEE........!!!!!')
     //just for testing purposes... please remove once is_on is fixed :)
     return true
   }
+  //------------------ end override for testing --------------------
 
   var date = parse_date(aDate) //this step should be part of the top-level function, so aDate is received as a normal standard date.  // added the "var"
 

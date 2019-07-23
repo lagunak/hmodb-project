@@ -24,7 +24,7 @@
     <f7-list v-if="fittingEvents.length">
       <f7-list-item v-for="(ev, indexx) in fittingEvents" :title="ev.id" link="#" :key="indexx"></f7-list-item>
     </f7-list>
-    <f7-block v-else>No events matching this date</f7-block>
+    <f7-block v-else>No events matching this date. Try 2019-07-24</f7-block>
   </f7-page>
 </template>
 

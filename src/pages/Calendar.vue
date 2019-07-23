@@ -1,4 +1,4 @@
-<template> 
+<template>
   <f7-page :page-content="false" @page:beforeremove="onPageBeforeRemove" @page:init="onPageInit">
     <f7-navbar :sliding="false">
       <f7-nav-left>
@@ -18,14 +18,14 @@
       <div id="calendar" class="block block-strong no-padding no-margin no-hairline-top"></div>
       <f7-list id="calendar-events" class="no-margin no-hairlines no-safe-area-left">
         <f7-list-item
-          v-for="(item, index) in eventItems"
+          v-for="(item, index) in todayItems"
           :key="index"
           :title="item.title"
-          :after="item.time"
+          :after="item.event_id"
         >
           <div class="event-color" :style="{'background-color': item.color}" slot="root-start"></div>
         </f7-list-item>
-        <f7-list-item v-if="eventItems.length === 0">
+        <f7-list-item v-if="todayItems.length === 0">
           <span class="text-color-gray" slot="title">No events for this day</span>
         </f7-list-item>
       </f7-list>
@@ -40,6 +40,11 @@ import {
   f7List,
   f7ListItem
 } from 'framework7-vue'
+
+import jsonDemo from '../js/hmodb/demoInfoJson.js'
+import is_on from '../js/hmodb/parse.js'
+var jsonn = jsonDemo
+
 export default {
   components: {
     f7Navbar,
@@ -55,7 +60,9 @@ export default {
     const day = date.getDate()
     return {
       today: new Date(year, month, day),
-      events: [
+      events: jsonn.events,
+      //myDotEvents: [],
+      eventsOld2: [
         {
           date: new Date(year, month, day),
           hours: 12,
@@ -97,21 +104,79 @@ export default {
           minutes: 0,
           title: 'Gym',
           color: '#ff9800'
+        },
+        {
+          date: new Date(year, month, day + 9),
+          hours: 21,
+          minutes: 0,
+          title: 'Kaixo',
+          color: '#ff9800'
         }
       ],
-      eventItems: []
+      todayItems: [] //items happenning in selected date
     }
   },
   methods: {
+    refreshDotEvents(calendar) {
+      console.log('dot events A', this.myDotEvents)
+      const self = this
+      console.log('CURRENT MONTH:', calendar.currentMonth)
+      var year = calendar.currentYear
+      var month = calendar.currentMonth
+      var day = 15 //in the middle of the monht :)
+      var dotEvAux = []
+      for (let offset = -70; offset < 70; offset++) {
+        var auxDate = new Date(year, month, day + offset)
+        this.events.forEach(event => {
+          if (is_on(event, auxDate)) {
+            console.log('MATCH ---- ', auxDate)
+            dotEvAux.push({
+              date: auxDate,
+              color: event.color
+            })
+          }
+        })
+      }
+      return dotEvAux
+      //console.log('dot events B', this.myDotEvents)
+    },
     goToToday() {
       var todayy = new Date()
-      //this.calendar.setValue([todayy]);
+      //this.calendar.setValue([todayy]);  //this does not trigger change events, removing for now.
       this.calendar.setYearMonth(todayy.getFullYear(), todayy.getMonth(), 10)
       //this.calendar.update();
       //this.renderEvents(this.calendar);
     },
+
     renderEvents(calendar) {
-      //include the events that happend today
+      //list events happening in selected date :)
+      const self = this
+      const currentDate = calendar.value[0]
+
+      console.log(currentDate, currentDate.getTime())
+      const currentEvents = []
+      self.events.forEach(event => {
+        if (is_on(event, currentDate)) {
+          currentEvents.push(event)
+        }
+      })
+
+      console.log('AAAAAAA', currentEvents)
+      const todayItems = []
+      if (currentEvents.length) {
+        currentEvents.forEach(event => {
+          var titlee = event.time_start + ' - ' + event.type
+          todayItems.push({
+            title: titlee,
+            event_id: event.id,
+            color: event.color
+          })
+        })
+      }
+      self.todayItems = todayItems
+    },
+    renderEvents2(calendar) {
+      //list items happening in selected date  // old version -> this one is for the sample given by f7
       const self = this
       const currentDate = calendar.value[0]
       const currentEvents = self.events.filter(
@@ -119,7 +184,7 @@ export default {
           event.date.getTime() >= currentDate.getTime() &&
           event.date.getTime() < currentDate.getTime() + 24 * 60 * 60 * 1000
       )
-      const eventItems = []
+      const todayItems = []
       if (currentEvents.length) {
         currentEvents.forEach(event => {
           var titlee = event.title
@@ -127,14 +192,14 @@ export default {
           var minutes = event.minutes
           if (minutes < 10) minutes = `0${minutes}`
           console.log(titlee + ': ' + hours + '...' + minutes)
-          eventItems.push({
+          todayItems.push({
             title: event.title,
             time: hours + ':' + minutes, //`${hours}:${minutes}`,
             color: event.color
           })
         })
       }
-      self.eventItems = eventItems
+      self.todayItems = todayItems
     },
     onPageInit(e, page) {
       const self = this
@@ -158,7 +223,8 @@ export default {
         containerEl: '#calendar',
         toolbar: false,
         value: [self.today],
-        events: self.events,
+        //events: self.myDotEvents, //self.eventsOld2, //self.events,
+        //dateFormat: 'yyyy-mm-dd',
         on: {
           init(calendar) {
             $('.navbar-calendar-title').text(
@@ -168,11 +234,25 @@ export default {
             calendar.$el.addClass('no-safe-area-right')
             self.renderEvents(calendar)
           },
+          opened(calendar) {
+            calendar.params.events = self.refreshDotEvents(calendar)
+            calendar.update()
+          },
+          monthYearChangeEnd(calendar) {
+            calendar.params.events = self.refreshDotEvents(calendar)
+            calendar.update()
+          },
           monthYearChangeStart(calendar) {
+            console.log('month changed 1')
             $('.navbar-calendar-title').text(
               `${monthNames[calendar.currentMonth]}, ${calendar.currentYear}`
             )
             app.navbar.size(app.navbar.getElByPage(page.el))
+
+            //self.renderEvents(calendar)
+            //calendar.update()
+
+            console.log('evvvent', calendar.events)
           },
           change(calendar) {
             self.renderEvents(calendar)
