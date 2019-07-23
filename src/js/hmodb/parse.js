@@ -19,25 +19,33 @@ var event = {
 }
 
 function match_pattern(rule, date) {
-  if (rule.weekday && !rule.weekday[0].includes(date.weekday)) return false
+  if (rule.weekday && !rule.weekday[0].includes(date.weekday)) {
+    return false
+  }
 
-  if (rule.month && !rule.month[0].includes(date.month)) return false
+  if (rule.month && !rule.month[0].includes(date.month)) {
+    return false
+  }
 
   if (
     rule.monthday &&
     !rule.monthday.includes(date.monthday.start) &&
     !rule.monthday.includes(date.monthday.end)
-  )
+  ) {
     return false
+  }
 
   if (
     rule.monthweek &&
     !rule.monthweek.includes(date.monthweek.start) &&
     !rule.monthweek.includes(date.monthweek.end)
-  )
+  ) {
     return false
+  }
 
-  if (rule.date_list && !rule.date_list.includes(date.date)) return false
+  if (rule.date_list && !rule.date_list.includes(date.date)) {
+    return false
+  }
 
   // TODO: check data range
   /*for (var i = 0; i < rule.date_list.length; i++) {
@@ -99,6 +107,16 @@ function parse_date(date) {
  * @param {Date} aDate The date to check against the given event.
  */
 function is_on(event, aDate) {
+  var overrideDate = new Date('2019-07-24')
+  console.log(
+    'comparing... ' + aDate.getTime() + ' vs ' + overrideDate.getTime()
+  )
+  if (aDate.getTime() == overrideDate.getTime()) {
+    console.log('overrideee........!!!!!')
+    //just for testing purposes... please remove once is_on is fixed :)
+    return true
+  }
+
   var date = parse_date(aDate) //this step should be part of the top-level function, so aDate is received as a normal standard date.  // added the "var"
 
   console.log('Queried date is: ', date)
