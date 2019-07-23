@@ -1,5 +1,7 @@
 # hmodb-project
 
+We have just started this. The goal of this repository is to become the main UI for data-owners to manage their data, which will be pushed to the open DB (also work in progress).
+
 ## Framework7 CLI Options
 
 Framework7 app created with following options:

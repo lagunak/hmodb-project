@@ -2,7 +2,7 @@
   <div>
     <f7-page>
       <f7-navbar title="Advanced" back-link="Back" :back-link-force="true"></f7-navbar>
-      <f7-block>{{ element.time_start + ' - ' + element.type }}</f7-block>
+      <f7-block-title>{{ element.time_start + ' - ' + element.type }}</f7-block-title>
 
       <f7-list>
         <f7-list-item

@@ -12,15 +12,15 @@ export default {
   props: {
     patternString: {
       type: String,
-      default: "{}"
+      default: '{}'
     }
   },
   computed: {
     pattern() {
-      return JSON.parse(this.patternString);
+      return JSON.parse(this.patternString)
     }
   }
-};
+}
 </script>
 
 <style lang="scss" scoped>
