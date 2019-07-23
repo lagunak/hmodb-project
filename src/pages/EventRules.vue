@@ -1,18 +1,23 @@
 <template>
   <div>
     <f7-page>
-      <f7-navbar title="Advanced" back-link="Back" :back-link-force="true"></f7-navbar>
-      <f7-block>{{ element.time_start + ' - ' + element.type }}</f7-block>
+      <f7-navbar
+        :title="event.time_start + ' - ' + event.type"
+        back-link="Events"
+        :back-link-force="true"
+      ></f7-navbar>
+      <f7-block-title>Patterns</f7-block-title>
+      <!-- <f7-block-title>{{ event.time_start + ' - ' + event.type }}</f7-block-title> -->
 
       <f7-list>
         <f7-list-item
-          v-for="(ad, index) in advancedData"
-          :header="ad.type"
-          :title="ad.description"
+          v-for="(pattern, index) in eventPatterns"
+          :header="pattern.type"
+          :title="pattern.description"
           :key="index"
           link="/xxx/"
           after="Edit"
-          :link="'/pattern/' + JSON.stringify(ad)"
+          :link="'/pattern/' + JSON.stringify(pattern)"
         ></f7-list-item>
       </f7-list>
       <f7-button fill href="/pattern/xxxx">Add new...</f7-button>
@@ -28,7 +33,7 @@ export default {
   data() {
     return {
       key: 'value',
-      element: []
+      event: []
     }
   },
   props: {
@@ -38,12 +43,12 @@ export default {
     }
   },
   computed: {
-    advancedData() {
+    eventPatterns() {
       var outputt = []
-      jsonn.events.forEach(element => {
-        if ((element.id = this.id)) {
-          outputt = element.advanced
-          this.element = element
+      jsonn.events.forEach(event => {
+        if (event.id == this.id) {
+          outputt = event.advanced
+          this.event = event
         }
       })
       console.log(outputt)

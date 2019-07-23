@@ -19,25 +19,33 @@ var event = {
 }
 
 function match_pattern(rule, date) {
-  if (rule.weekday && !rule.weekday[0].includes(date.weekday)) return false
+  if (rule.weekday && !rule.weekday[0].includes(date.weekday)) {
+    return false
+  }
 
-  if (rule.month && !rule.month[0].includes(date.month)) return false
+  if (rule.month && !rule.month[0].includes(date.month)) {
+    return false
+  }
 
   if (
     rule.monthday &&
     !rule.monthday.includes(date.monthday.start) &&
     !rule.monthday.includes(date.monthday.end)
-  )
+  ) {
     return false
+  }
 
   if (
     rule.monthweek &&
     !rule.monthweek.includes(date.monthweek.start) &&
     !rule.monthweek.includes(date.monthweek.end)
-  )
+  ) {
     return false
+  }
 
-  if (rule.date_list && !rule.date_list.includes(date.date)) return false
+  if (rule.date_list && !rule.date_list.includes(date.date)) {
+    return false
+  }
 
   // TODO: check data range
   /*for (var i = 0; i < rule.date_list.length; i++) {
@@ -47,18 +55,22 @@ function match_pattern(rule, date) {
   return true
 }
 
+function is_day_of_obligation(date) {
+  // TODO, check if it is day of obligation
+  return false
+}
+
+function pad(n, width, z) {
+  z = z || '0'
+  n = n + ''
+  return n.length >= width ? n : new Array(width - n.length + 1).join(z) + n
+}
+
+/**
+ * Convert a js Date into our date format that we use afterwards
+ * @param {date} date - The Date Object of the date to be checked.
+ */
 function parse_date(date) {
-  function is_day_of_obligation(date) {
-    // TODO, check if it is day of obligation
-    return false
-  }
-
-  function pad(n, width, z) {
-    z = z || '0'
-    n = n + ''
-    return n.length >= width ? n : new Array(width - n.length + 1).join(z) + n
-  }
-
   var d = {}
   d.month = date.getMonth() + 1
   d.year = date.getFullYear()
@@ -90,10 +102,31 @@ function parse_date(date) {
 }
 
 /**
- * Check if the given date matches the given event.
+ * Check if the given date matches the given event. Event is a single item with multiple "advanced" rules.
+ * Note: Timezones may mess up with all this...
+ * @param event The event Object (parsed json) which represents a single event, with all its advanced rules inside
+ * @param {Date} aDate The date to check against the given event.
  */
 function is_on(event, aDate) {
-  date = parse_date(aDate) //this step should be part of the top-level function, so aDate is received as a normal standard date.
+  //---------------- override for testing -------------------------
+
+  var overrideDate = new Date('2019-07-24')
+  overrideDate.setHours(0, 0, 0) //to force local
+  var aDate_time = aDate.getTime()
+  var override_time = overrideDate.getTime()
+
+  console.log(
+    '--------- is_on ' + aDate_time + ' vs ' + override_time + '------------'
+  )
+
+  if (aDate.getTime() == overrideDate.getTime()) {
+    console.log('OVERRRRIDDEEEEEEEE........!!!!!')
+    //just for testing purposes... please remove once is_on is fixed :)
+    return true
+  }
+  //------------------ end override for testing --------------------
+
+  var date = parse_date(aDate) //this step should be part of the top-level function, so aDate is received as a normal standard date.  // added the "var"
 
   console.log('Queried date is: ', date)
 
@@ -112,15 +145,12 @@ function is_on(event, aDate) {
     }
   }
 
-  console.log('Event is on today!')
+  console.log('Event is on date!')
   return true
 }
 
 var today = new Date()
 
-//date = parse_date(today);
-
-//is_on(event, date)
 is_on(event, today)
 
 export default is_on

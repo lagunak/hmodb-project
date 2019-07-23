@@ -37,7 +37,7 @@
           icon-ios="f7:calendar_today"
           icon-aurora="f7:calendar_today"
           icon-md="material:calendar_today"
-          text="Events"
+          text="Calendar"
         ></f7-link>
         <f7-link
           tab-link="#view-settings"
@@ -64,47 +64,47 @@
       <f7-view id="view-calendar" name="events" tab url="/calendar/"></f7-view>
 
       <!-- Settings View -->
-      <f7-view id="view-settings" name="settings" tab url="/quick-links/"></f7-view>
+      <f7-view id="view-settings" name="settings" tab url="/settings/"></f7-view>
     </f7-views>
   </f7-app>
 </template>
 <script>
-import routes from "../js/routes.js";
+import routes from '../js/routes.js'
 
 export default {
   data() {
     return {
       // Framework7 Parameters
       f7params: {
-        name: "RT", // App name
-        theme: "auto", // Automatic theme detection
+        name: 'RT', // App name
+        theme: 'auto', // Automatic theme detection
         cache: false, //let's do this for now...
         // App root data
         data: function() {
           return {
             user: {
-              firstName: "John",
-              lastName: "Doe"
+              firstName: 'John',
+              lastName: 'Doe'
             }
-          };
+          }
         },
 
         // App routes
         routes: routes
       }
-    };
+    }
   },
   methods: {
     alertLoginData() {
       this.$f7.dialog.alert(
-        "Username: " + this.username + "<br>Password: " + this.password
-      );
+        'Username: ' + this.username + '<br>Password: ' + this.password
+      )
     }
   },
   mounted() {
     this.$f7ready(f7 => {
       // Call F7 APIs here
-    });
+    })
   }
-};
+}
 </script>

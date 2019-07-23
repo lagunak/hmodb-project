@@ -17,17 +17,17 @@
 </template>
 
 <script>
-import jsonDemo from "../js/hmodb/demoInfoJson.js";
+import jsonDemo from '../js/hmodb/demoInfoJson.js'
 
-var jsonn = jsonDemo;
-console.log(jsonn);
+var jsonn = jsonDemo
+//console.log(jsonn);
 export default {
   data() {
     return {
       events: jsonn.events
-    };
+    }
   }
-};
+}
 </script>
 
 <style lang="scss" scoped>
