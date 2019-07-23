@@ -5,6 +5,7 @@
       <f7-list>
         <f7-list-item>Item 1</f7-list-item>
         <f7-list-item>Item 2</f7-list-item>
+        <f7-list-item>Item 3</f7-list-item>
       </f7-list>
     </f7-page>
   </div>

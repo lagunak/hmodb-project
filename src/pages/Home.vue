@@ -11,7 +11,7 @@
 
     <f7-list>
       <f7-list-input
-        label="Default setup"
+        label="Date to test"
         type="datepicker"
         placeholder="Pick a date!"
         @change="dateString = $event.target.value"
@@ -21,8 +21,8 @@
 
     <f7-block>{{ myDate }}</f7-block>
 
-    <f7-list v-if="fittingEvents.lenght">
-      <f7-list-item v-for="(ev, indexx) in fittingEvents" :title="ev" link="#" :key="indexx"></f7-list-item>
+    <f7-list v-if="fittingEvents.length">
+      <f7-list-item v-for="(ev, indexx) in fittingEvents" :title="ev.id" link="#" :key="indexx"></f7-list-item>
     </f7-list>
     <f7-block v-else>No events matching this date</f7-block>
   </f7-page>
@@ -48,9 +48,9 @@ export default {
     fittingEvents() {
       console.log('check if fitting in ', this.myDate)
       var outputt = []
-      jsonn.events.forEach(elem => {
-        if (is_on(elem, new Date(this.myDate))) {
-          outputt.push(elem.comment)
+      jsonn.events.forEach(event => {
+        if (is_on(event, new Date(this.myDate))) {
+          outputt.push(event)
         }
       })
       console.log('Matched dates:', outputt)
