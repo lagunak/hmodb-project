@@ -1,8 +1,8 @@
 {
-  "name": "compramejor",
+  "name": "hmodb-project",
   "private": true,
   "version": "1.0.0",
-  "description": "compramejor",
+  "description": "hmodb-project",
   "repository": "",
   "license": "UNLICENSED",
   "framework7": {
@@ -10,7 +10,7 @@
     "type": [
       "web"
     ],
-    "name": "compramejor",
+    "name": "hmodb-project",
     "framework": "vue",
     "template": "single-view",
     "cssPreProcessor": false,
