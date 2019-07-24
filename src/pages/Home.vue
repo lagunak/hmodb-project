@@ -43,13 +43,15 @@ export default {
   },
   computed: {
     myDate() {
-      return new Date(this.dateString)
+      var auxx = new Date(this.dateString)
+      auxx.setHours(0, 0, 0)
+      return auxx
     },
     fittingEvents() {
       console.log('check if fitting in ', this.myDate)
       var outputt = []
       jsonn.events.forEach(event => {
-        if (is_on(event, new Date(this.myDate))) {
+        if (is_on(event, this.myDate)) {
           outputt.push(event)
         }
       })
