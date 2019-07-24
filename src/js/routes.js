@@ -26,7 +26,7 @@ var routes = [
     props: true
   },
   {
-    path: '/advanced/id/:id',
+    path: '/advanced/id/:event_id',
     component: EventRulesPage,
     props: true
   },
