@@ -54,7 +54,8 @@
     "framework7-icons": "^2.3.1",
     "framework7-vue": "^4.4.6",
     "template7": "^1.4.2",
-    "vue": "^2.6.10"
+    "vue": "^2.6.10",
+    "vuex": "^3.1.1"
   },
   "devDependencies": {
     "@babel/core": "^7.5.4",

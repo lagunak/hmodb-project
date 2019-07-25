@@ -1,32 +1,36 @@
 // Import Vue
-import Vue from 'vue';
+import Vue from 'vue'
+
+//import Vuex (20190725)
+import Vuex from 'vuex'
+Vue.use(Vuex)
 
 // Import Framework7
-import Framework7 from 'framework7/framework7.esm.bundle.js';
+import Framework7 from 'framework7/framework7.esm.bundle.js'
 
 // Import Framework7-Vue Plugin
-import Framework7Vue from 'framework7-vue/framework7-vue.esm.bundle.js';
+import Framework7Vue from 'framework7-vue/framework7-vue.esm.bundle.js'
 
 // Import Framework7 Styles
-import 'framework7/css/framework7.bundle.css';
+import 'framework7/css/framework7.bundle.css'
 
 // Import Icons and App Custom Styles
-import '../css/icons.css';
-import '../css/app.css';
+import '../css/icons.css'
+import '../css/app.css'
 
 // Import App Component
-import App from '../components/app.vue';
+import App from '../components/app.vue'
 
 // Init Framework7-Vue Plugin
-Framework7.use(Framework7Vue);
+Framework7.use(Framework7Vue)
 
 // Init App
 new Vue({
   el: '#app',
-  render: (h) => h(App),
+  render: h => h(App),
 
   // Register App Component
   components: {
     app: App
-  },
-});
+  }
+})
