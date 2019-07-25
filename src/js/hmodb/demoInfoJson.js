@@ -201,4 +201,15 @@ Queries could be based on
     ]
   }
 
-export default jsonDemo
+var jsonDemo2 = { events: [] }
+
+fetch(
+  'http://thecatholicdb.com/api/select.php?json={"apiKey":"invited034","sql":"select json from temples where temple_id=4"}'
+)
+  .then(response => response.json())
+  .then(data => {
+    jsonDemo = JSON.parse(decodeURIComponent(data[0].json))
+  })
+
+export { jsonDemo }
+export { jsonDemo2 }

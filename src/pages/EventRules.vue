@@ -80,7 +80,7 @@
 </template>
 
 <script>
-import jsonDemo from '../js/hmodb/demoInfoJson.js'
+import { jsonDemo } from '../js/hmodb/demoInfoJson.js'
 
 var jsonn = jsonDemo
 export default {
