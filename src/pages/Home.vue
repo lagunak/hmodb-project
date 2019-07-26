@@ -8,6 +8,7 @@
     </f7-navbar>
 
     <f7-block-title>Let's test current JSON</f7-block-title>
+    <f7-block>Store count: {{ countt }}</f7-block>
 
     <f7-list>
       <f7-list-input
@@ -43,7 +44,8 @@ export default {
     return {
       dateString: '2019-07-22',
       element: [],
-      myJson: jsonDemo
+      myJson: jsonDemo,
+      countt: this.$store.state.count
     }
   },
   computed: {
