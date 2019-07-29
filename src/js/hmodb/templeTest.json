@@ -1,0 +1,170 @@
+{
+  "location": {
+    "city": "Pamplona",
+    "country": "Spain",
+    "postcode": "31003",
+    "region": "Navarra",
+    "street": "Francisco Bergamin Kalea, 17. Plaza de la Cruz",
+    "formatted_address": "Calle de Francisco Bergamin Kalea, 17, 31003 Pamplona, Navarra",
+    "google_maps_id": "UREBGQgkJMymaV8R8",
+    "latitude": "42.8116805499732",
+    "longitude": "-1.64030424472583",
+    "distance": "0.163954353899143",
+    "directions": null
+  },
+  "contact": {
+    "email": "sanmiguelpamplona@gmail.com",
+    "priest": "Oroz Arraiza, Luis María",
+    "phone_number": "(34) 948.243.518",
+    "url": "http://www.parroquiasanmiguel.com",
+    "mass_times_url": "https://www.parroquiasanmiguel.com/nuestra-parroquia/horario-de-misas-en-pamplona/",
+    "confession_times_url": "https://www.parroquiasanmiguel.com/celebracion-de-los-sacramentos/confesion/",
+    "last_update": [1561805184, "admin|user|..."]
+  },
+  "about": {
+    "church_types": [
+      "Parish",
+      "Cathedral",
+      "Shrine",
+      "Basilica",
+      "Chaplaincy",
+      "..."
+    ],
+    "diocese": "Pamplona y Tudela",
+    "diocese_type": "Archdiocese",
+    "name": "San Miguel",
+    "rite_type": "Roman-Latin",
+    "id": "4",
+    "languages": ["Spanish", "Basque"],
+    "feast_calendar_id": 15,
+    "comments": "",
+    "last_update": [1561805184, ""],
+    "wheel_chair_access": null
+  },
+  "events": [
+    {
+      "id": "Astupz834",
+      "color": "#4caf50",
+      "type": "Mass",
+      "tags": [
+        "Youth",
+        "Sign language",
+        "Tridentine rite",
+        "German",
+        "Side Chapel",
+        "Confession available during event (dudo de esta tag)"
+      ],
+      "comment": "Confessions queue closes at 12.30pm",
+      "url": "",
+      "time_start": "10:00",
+      "time_end": "10:30",
+      "duration": 30,
+      "weekday": "123456sSfFp",
+      "advanced": [
+        {
+          "type": "onlyif|exclude|move|cancel",
+          "monthday": "1,2,...,30,31",
+          "month": "1,2,...,11,12",
+          "monthweek": "1,2,3,4,5,-1,-2,-3,-4,-5",
+          "weekday": "123456sSfFp",
+          "date_range": ["xxxx-06-15", "xxxx-09-10"],
+          "date_list": ["2019-06-15", "2019-05-18", "..."],
+          "description": "sample item"
+        },
+        {
+          "type": "exclude",
+          "date_range": ["xxxx-06-15", "xxxx-09-10"],
+          "description": "Exclude summer holidays (eg 15th June to 10th September)"
+        },
+        {
+          "type": "onlyif",
+          "weekday": "4",
+          "month": "2,4,6,8,10,12",
+          "monthweek": "-1",
+          "description": "Event only happens on the last Thursday of the month, on even months"
+        },
+        {
+          "type": "exclude",
+          "weekday": "6sf",
+          "month": "7",
+          "monthday": "7,8",
+          "description": "Event does not occur when it falls on the 7th July/August, and it is Friday or vigil day (sf)"
+        },
+        {
+          "type": "cancel",
+          "date_list": ["2019-09-13", "2019-09-15"],
+          "description": "event is cancelled on the 13th and 5th September 2019"
+        },
+        {
+          "type": "move",
+          "move": -1440,
+          "weekday": "SF",
+          "description": "Event is moved to the previous day if it falls on a sunday or feast day"
+        }
+      ],
+
+      "last_update": [1561805184, "admin|user|..."]
+    },
+    {
+      "id": "Asuudgj734",
+      "color": "#e91e63",
+      "type": "Mass",
+      "tags": [
+        "Youth",
+        "Sign language",
+        "Tridentine rite",
+        "German",
+        "Side Chapel",
+        "Confession available during event (dudo de esta tag)"
+      ],
+      "comment": "Confessions queue closes at 12.30pm",
+      "url": "",
+      "time_start": "21:00",
+      "time_end": "21:30",
+      "duration": 30,
+      "weekday": "123456sSfFp",
+      "advanced": [
+        {
+          "type": "onlyif|exclude|move|cancel",
+          "monthday": "1,2,...,30,31",
+          "month": "1,2,...,11,12",
+          "monthweek": "1,2,3,4,5,-1,-2,-3,-4,-5",
+          "weekday": "123456sSfFp",
+          "date_range": ["xxxx-06-15", "xxxx-09-10"],
+          "description": "sample item 2"
+        },
+
+        {
+          "type": "exclude",
+          "date_range": ["xxxx-06-15", "xxxx-09-10"],
+          "description": "exclude summer holidays (eg 15th June to 10th September)"
+        },
+        {
+          "type": "onlyif",
+          "weekday": "4",
+          "month": "2,4,6,8,10,12",
+          "monthweek": "-1",
+          "description": "event only happens on the last Thursday of the month, on even months"
+        },
+        {
+          "type": "exclude",
+          "weekday": "6sf",
+          "month": "7",
+          "monthday": "7,8",
+          "description": "event does not occur when it falls on the 7th July/August, and it is Friday or vigil day (sf)"
+        },
+        {
+          "type": "cancel",
+          "date_list": ["2019-09-13", "2019-09-15"],
+          "description": "event is cancelled on the 13th and 5th September 2019"
+        },
+        {
+          "type": "move",
+          "move": -1440,
+          "description": "event is moved to the previous day if it falls on a sunday or feast day"
+        }
+      ],
+      "last_update": [1561805234, "admin|user|..."]
+    }
+  ]
+}

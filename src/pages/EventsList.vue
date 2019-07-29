@@ -11,13 +11,15 @@
           :key="index"
           :badge="event.advanced.length"
         ></f7-list-item>
+
+        <f7-block>{{ JSON.stringify(events)}}</f7-block>
       </f7-list>
     </f7-page>
   </div>
 </template>
 
 <script>
-import jsonDemo from '../js/hmodb/demoInfoJson.js'
+import { jsonDemo } from '../js/hmodb/demoInfoJson.js'
 
 var jsonn = jsonDemo
 //console.log(jsonn);

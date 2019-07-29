@@ -41,7 +41,7 @@ import {
   f7ListItem
 } from 'framework7-vue'
 
-import jsonDemo from '../js/hmodb/demoInfoJson.js'
+import { jsonDemo } from '../js/hmodb/demoInfoJson.js'
 import is_on from '../js/hmodb/parse.js'
 var jsonn = jsonDemo
 
@@ -116,6 +116,9 @@ export default {
       todayItems: [] //items happenning in selected date
     }
   },
+  updated() {
+    console.log('updated')
+  },
   methods: {
     refreshDotEvents(calendar) {
       console.log('dot events A', this.myDotEvents)
@@ -125,7 +128,7 @@ export default {
       var month = calendar.currentMonth
       var day = 15 //in the middle of the monht :)
       var dotEvAux = []
-      for (let offset = -70; offset < 70; offset++) {
+      for (let offset = -40; offset < 40; offset++) {
         var auxDate = new Date(year, month, day + offset)
         this.events.forEach(event => {
           if (is_on(event, auxDate)) {
@@ -169,32 +172,6 @@ export default {
           todayItems.push({
             title: titlee,
             event_id: event.id,
-            color: event.color
-          })
-        })
-      }
-      self.todayItems = todayItems
-    },
-    renderEvents2(calendar) {
-      //list items happening in selected date  // old version -> this one is for the sample given by f7
-      const self = this
-      const currentDate = calendar.value[0]
-      const currentEvents = self.events.filter(
-        event =>
-          event.date.getTime() >= currentDate.getTime() &&
-          event.date.getTime() < currentDate.getTime() + 24 * 60 * 60 * 1000
-      )
-      const todayItems = []
-      if (currentEvents.length) {
-        currentEvents.forEach(event => {
-          var titlee = event.title
-          var hours = event.hours
-          var minutes = event.minutes
-          if (minutes < 10) minutes = `0${minutes}`
-          console.log(titlee + ': ' + hours + '...' + minutes)
-          todayItems.push({
-            title: event.title,
-            time: hours + ':' + minutes, //`${hours}:${minutes}`,
             color: event.color
           })
         })
@@ -261,9 +238,13 @@ export default {
       })
     },
     onPageBeforeRemove() {
+      console.log('BeforeRemove')
       const self = this
       self.calendar.destroy()
     }
+  },
+  mounted() {
+    console.log('mounteeeeed')
   }
 }
 </script>

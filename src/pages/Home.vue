@@ -8,6 +8,7 @@
     </f7-navbar>
 
     <f7-block-title>Let's test current JSON</f7-block-title>
+    <f7-block>Store count: {{ countt }}</f7-block>
 
     <f7-list>
       <f7-list-input
@@ -25,31 +26,39 @@
       <f7-list-item v-for="(ev, indexx) in fittingEvents" :title="ev.id" link="#" :key="indexx"></f7-list-item>
     </f7-list>
     <f7-block v-else>No events matching this date. Try 2019-07-24</f7-block>
+
+    <f7-block>
+      All events...:
+      <br />
+      {{ JSON.stringify(myJson) }}
+    </f7-block>
   </f7-page>
 </template>
 
 <script>
 import is_on from '../js/hmodb/parse.js'
-import jsonDemo from '../js/hmodb/demoInfoJson.js'
-
-var jsonn = jsonDemo
+import { jsonDemo } from '../js/hmodb/demoInfoJson.js'
 
 export default {
   data() {
     return {
       dateString: '2019-07-22',
-      element: []
+      element: [],
+      myJson: jsonDemo,
+      countt: this.$store.state.count
     }
   },
   computed: {
     myDate() {
-      return new Date(this.dateString)
+      var auxx = new Date(this.dateString)
+      auxx.setHours(0, 0, 0)
+      return auxx
     },
     fittingEvents() {
       console.log('check if fitting in ', this.myDate)
       var outputt = []
-      jsonn.events.forEach(event => {
-        if (is_on(event, new Date(this.myDate))) {
+      this.myJson.events.forEach(event => {
+        if (is_on(event, this.myDate)) {
           outputt.push(event)
         }
       })
@@ -58,7 +67,7 @@ export default {
     },
     advancedData() {
       var outputt = []
-      jsonn.events.forEach(element => {
+      this.myJson.events.forEach(element => {
         if ((element.id = this.id)) {
           outputt = element.advanced
           this.element = element

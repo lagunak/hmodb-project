@@ -71,5 +71,5 @@ framework7 generate-assets --ui
 
 ## Support Framework7
 
-Love Framework7? Support project by donating or pledging on patreon:
+We use Framework7 to build our web so it looks like an app. You can support Framwork7 project by donating or pledging on patreon:
 https://patreon.com/vladimirkharlampidi
