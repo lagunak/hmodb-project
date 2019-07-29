@@ -9,50 +9,97 @@ var event = {
   weekday: '123456sSfFp', //1-Monday,...,6-satuday morning, s-sunday vigil, S-Sunday, f-feast vigil, F-Feast,p-publicholiday
   advanced: [
     {
+      type: 'include',
+      weekday: '6',
+      month: '7,9,11'
+    },
+    {
       type: 'exclude',
       weekday: '2',
       month: '7,9,11',
       monthweek: '-5'
+    },
+    {
+      type: 'onlyif',
+      //"date_range": ["xxxx-06-15|xxxx-09-15", "xxxx-06-15|xxxx-09-15"], //
+      date_range: [['xxxx-06-15', 'xxxx-08-15']] //
     }
   ],
   last_update: [1561805184, 'admin|user|...']
 }
 
-function match_pattern(rule, date) {
-  if (rule.weekday && !rule.weekday[0].includes(date.weekday)) {
-    return false
+// Check if the given date satisfies the rule
+// A date satisfies a rule if and only if it satisfies all the patterns it contains
+function date_satisfies_rule(pDate, rule) {
+  if (rule.weekday) {
+    if (!rule.weekday[0].includes(pDate.weekday)) return false
   }
-
-  if (rule.month && !rule.month[0].includes(date.month)) {
-    return false
+  if (rule.month) {
+    if (!rule.month[0].includes(pDate.month)) return false
   }
-
-  if (
-    rule.monthday &&
-    !rule.monthday.includes(date.monthday.start) &&
-    !rule.monthday.includes(date.monthday.end)
-  ) {
-    return false
+  if (rule.monthday) {
+    if (
+      !rule.monthday.includes(pDate.monthday.start) &&
+      !rule.monthday.includes(pDate.monthday.end)
+    )
+      return false
   }
-
-  if (
-    rule.monthweek &&
-    !rule.monthweek.includes(date.monthweek.start) &&
-    !rule.monthweek.includes(date.monthweek.end)
-  ) {
-    return false
+  if (rule.monthweek) {
+    if (
+      !rule.monthweek.includes(pDate.monthweek.start) &&
+      !rule.monthweek.includes(pDate.monthweek.end)
+    )
+      return false
   }
-
-  if (rule.date_list && !rule.date_list.includes(date.date)) {
-    return false
+  if (rule.date_list) {
+    // TODO: allow xxxx placeholder?
+    if (!rule.date_list.includes(pDate.string)) return false
   }
-
-  // TODO: check data range
-  /*for (var i = 0; i < rule.date_list.length; i++) {
-      rule.date_list[i]
-  }*/
+  if (rule.date_range) {
+    var matches = false
+    for (var i = 0; i < rule.date_range.length; i++) {
+      var start = rule.date_range[i][0].replace('xxxx', pDate.year)
+      var end = rule.date_range[i][1].replace('xxxx', pDate.year)
+      if ((start <= pDate.string) & (pDate.string <= end)) matches = true
+    }
+    if (!matches) return false
+  }
 
   return true
+}
+
+function parse_date(date) {
+  // Prepare some auxiliary data
+  var year = date.getFullYear()
+  var month = date.getMonth() + 1
+  var monthday = date.getDate()
+  var daysinmonth = new Date(year, month, 0).getDate() // number of days in this month
+
+  // Build parsed data object
+  var pDate = {
+    month: month,
+    year: year,
+    monthday: {
+      start: monthday, // Day of the month counting from the start of the month
+      end: daysinmonth - monthday // Day of the month counting from the end of the month
+    },
+    monthweek: {
+      // eg. the first Thursday of the month has monthweek.start = 1, the last one has monthweek.end = 1
+      start: Math.ceil(monthday / 7), // Week of the month, counting from the start
+      end: Math.ceil((daysinmonth - monthday) / 7) // Week of the month counting from the end
+    },
+    string: year + '-' + pad(month, 2) + '-' + pad(monthday, 2),
+    weekday: date.getDay()
+  }
+
+  if (pDate.weekday == 0) {
+    pDate.weekday = 'S'
+  }
+  // TODO?
+  // If it is Sunday, show Sunday (S) and Sunday vigils (s)
+  // If it is Saturday, show Saturday (6) and Sunday vigils (s)
+
+  return pDate
 }
 
 function is_day_of_obligation(date) {
@@ -67,85 +114,46 @@ function pad(n, width, z) {
 }
 
 /**
- * Convert a js Date into our date format that we use afterwards
- * @param {date} date - The Date Object of the date to be checked.
+ * Check if the given date matches the given event.
  */
-function parse_date(date) {
-  var d = {}
-  d.month = date.getMonth() + 1
-  d.year = date.getFullYear()
+function is_on(event, raw_date) {
+  var pDate = parse_date(raw_date) //this step should be part of the top-level function, so aDate is received as a normal standard date.
 
-  var numdays = new Date(d.year, d.month, 0).getDate() // number of days in this month
+  console.log('Queried date is: ', pDate)
 
-  d.monthday = {
-    start: date.getDate(),
-    end: numdays - date.getDate()
-  }
+  if (!event.weekday.includes(pDate.weekday)) return
 
-  // Today is the x Monday|Tuesday|... of this month counting from the start|end
-  d.monthweek = {
-    start: Math.ceil(d.monthday.start / 7),
-    end: Math.ceil((numdays - d.monthday.start) / 7)
-  }
-
-  d.weekday = date.getDay()
-  if (d.weekday == 0) {
-    d.weekday = 'sS'
-  } // If it is Sunday, show Sunday (S) and Sunday vigils (s)
-  if (d.weekday == 6) {
-    d.weekday = '6s'
-  } // If it is Saturday, show Saturday (6) and Sunday vigils (s)
-
-  d.date = d.year + '-' + pad(d.month, 2) + '-' + pad(d.monthday.start, 2)
-
-  return d
-}
-
-/**
- * Check if the given date matches the given event. Event is a single item with multiple "advanced" rules.
- * Note: Timezones may mess up with all this...
- * @param event The event Object (parsed json) which represents a single event, with all its advanced rules inside
- * @param {Date} aDate The date to check against the given event.
- */
-function is_on(event, aDate) {
-  //---------------- override for testing -------------------------
-
-  var overrideDate = new Date('2019-07-24')
-  overrideDate.setHours(0, 0, 0) //to force local
-  var aDate_time = aDate.getTime()
-  var override_time = overrideDate.getTime()
-
-  console.log(
-    '--------- is_on ' + aDate_time + ' vs ' + override_time + '------------'
-  )
-
-  if (aDate.getTime() == overrideDate.getTime()) {
-    console.log('OVERRRRIDDEEEEEEEE........!!!!!')
-    //just for testing purposes... please remove once is_on is fixed :)
-    return true
-  }
-  //------------------ end override for testing --------------------
-
-  var date = parse_date(aDate) //this step should be part of the top-level function, so aDate is received as a normal standard date.  // added the "var"
-
-  console.log('Queried date is: ', date)
-
-  if (!event.weekday.includes(date.weekday)) return
-
+  // Iterate through all advanced rules
+  var included = false
   for (var i = 0; i < event.advanced.length; i++) {
     var rule = event.advanced[i]
-    var matches = match_pattern(rule, date)
-    if (rule.type == 'exclude' && matches) {
+
+    // Check if the given date satisfies the rule
+    var satisfy = date_satisfies_rule(pDate, rule)
+
+    // If we satisfy an inclusion rule, consider it as included
+    if (rule.type == 'include' && satisfy) {
+      console.log('Event satisfies include rule:', rule)
+      included = true
+    }
+    // If we satisfy an exclusion rule, the event is not on, return false
+    if (rule.type == 'exclude' && satisfy) {
       console.log('Event satisfies exclude rule:', rule)
       return false
     }
-    if (rule.type == 'onlyif' && !matches) {
+    // If we not satisfy an onlyif rule, the event is not on, return false
+    if (rule.type == 'onlyif' && !satisfy) {
       console.log('Event does NOT satisfy onlyif rule:', rule)
       return false
     }
   }
 
-  console.log('Event is on date!')
+  if (!included) {
+    console.log('Event does NOT satisfy any include rule')
+    return false
+  }
+  // Return
+  console.log('Event is on today!')
   return true
 }
 
