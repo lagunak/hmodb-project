@@ -117,6 +117,23 @@ function pad(n, width, z) {
  * Check if the given date matches the given event.
  */
 function is_on(event, raw_date) {
+  //---------------- override for testing -------------------------
+  var override_date = new Date('2019-07-24')
+  override_date.setHours(0, 0, 0) //to force local
+  var raw_time = raw_date.getTime()
+  var override_time = override_date.getTime()
+
+  console.log(
+    '--------- is_on ' + raw_time + ' vs ' + override_time + '------------'
+  )
+
+  if (raw_date.getTime() == override_date.getTime()) {
+    console.log('OVERRRRIDDEEEEEEEE DATE........!!!!!')
+    //just for testing purposes... please remove once is_on is fixed :)
+    return true
+  }
+  //------------------ end override for testing --------------------
+
   var pDate = parse_date(raw_date) //this step should be part of the top-level function, so aDate is received as a normal standard date.
 
   console.log('Queried date is: ', pDate)
