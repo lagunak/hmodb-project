@@ -71,7 +71,7 @@ Queries could be based on
         duration: 90,
         weekday: '123456sSfFp', //1-Monday,...,6-satuday morning, s-sunday vigil, S-Sunday, f-feast vigil, F-Feast,p-publicholiday
         advanced: [
-          {
+          /*{
             type: 'onlyif|exclude|move|cancel',
             monthday: '1,2,...,30,31', // list of comma separated values, null to include all
             month: '1,2,...,11,12', // list of comma separated values, null to include all
@@ -81,6 +81,11 @@ Queries could be based on
             date_list: ['2019-06-15', '2019-05-18', '...'], // list of dates, null to include all
             // note this way alphabetical and calendar order coincide, allowing direct string comparisons "2019-05-08">"2019-08-16"
             description: 'sample item'
+          },*/
+          {
+            type: 'include',
+            weekday: '4,6',
+            month: '7,8,9'
           },
           {
             // exclude summer holidays (eg 15th June to 10th September)
@@ -89,7 +94,7 @@ Queries could be based on
             description:
               'Exclude summer holidays (eg 15th June to 10th September)'
           },
-          {
+          /* {
             // event only happens on the last Thursday of the month, on even months
             type: 'onlyif',
             weekday: '4',
@@ -97,7 +102,7 @@ Queries could be based on
             monthweek: '-1',
             description:
               'Event only happens on the last Thursday of the month, on even months'
-          },
+          },*/
           {
             // event does not occur when it falls on the 7th July/August, and it is Friday or vigil day (sf)
             type: 'exclude',
@@ -110,8 +115,9 @@ Queries could be based on
           {
             // event is cancelled on the 13th and 5th September 2019
             type: 'cancel',
-            date_list: ['2019-09-13', '2019-09-15'],
-            description: 'event is cancelled on the 13th and 5th September 2019'
+            date_list: ['2019-09-12', '2019-09-13', '2019-09-15'],
+            description:
+              'event is cancelled on the 12th, 13th and 5th September 2019'
           },
           {
             // event is moved to the previous day if it falls on a sunday or feast day
