@@ -19,6 +19,13 @@
           text="RT"
         ></f7-link>
         <f7-link
+          tab-link="#view-testing"
+          icon-ios="f7:compass"
+          icon-aurora="f7:compass"
+          icon-md="material:compass"
+          text="Load"
+        ></f7-link>
+        <f7-link
           tab-link="#view-home"
           icon-ios="f7:home_fil"
           icon-aurora="f7:home_fil"
@@ -53,6 +60,7 @@
 
       <!-- Real Time Train View -->
       <f7-view id="view-real-time" name="real-time" tab tab-active url="/real-time/"></f7-view>
+      <f7-view id="view-testing" name="testing" tab url="/testing/"></f7-view>
 
       <!-- Home View -->
       <f7-view id="view-home" name="home" tab url="/home/"></f7-view>

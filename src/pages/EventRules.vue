@@ -15,7 +15,6 @@
           :header="pattern.type"
           :title="pattern.description"
           :key="index"
-          link="/xxx/"
           after="Edit"
           :link="'/pattern/' + JSON.stringify(pattern)"
         ></f7-list-item>
@@ -27,7 +26,7 @@
         <f7-list-input
           label="Type"
           type="select"
-          :defaultValue="event.type"
+          :value="event.type"
           placeholder="Please choose..."
           @change="event.type = $event.target.value"
         >
@@ -80,16 +79,7 @@
 </template>
 
 <script>
-import { jsonDemo } from '../js/hmodb/demoInfoJson.js'
-
-var jsonn = jsonDemo
 export default {
-  data() {
-    return {
-      key: 'value',
-      event: []
-    }
-  },
   props: {
     event_id: {
       type: String,
@@ -97,16 +87,25 @@ export default {
     }
   },
   computed: {
+    event: {
+      get() {
+        var outputt = []
+        console.log('store', this.$store.state.info.events)
+        this.$store.state.info.events.forEach(ev => {
+          if (ev.id == this.event_id) {
+            console.log('found', ev.id)
+            outputt = ev
+          }
+        })
+        return outputt
+      },
+      set(value) {
+        console.log('tried to set...')
+      }
+    },
+
     eventPatterns() {
-      var outputt = []
-      jsonn.events.forEach(event => {
-        if (event.id == this.event_id) {
-          outputt = event.advanced //return the patterns ("advanced")
-          this.event = event
-        }
-      })
-      console.log(outputt)
-      return outputt
+      return this.event.advanced
     }
   },
   mounted() {

@@ -29,6 +29,7 @@
           <span class="text-color-gray" slot="title">No events for this day</span>
         </f7-list-item>
       </f7-list>
+      <button @click="refreshCalendarTest">Refresh</button>
     </div>
   </f7-page>
 </template>
@@ -41,9 +42,11 @@ import {
   f7ListItem
 } from 'framework7-vue'
 
+/*
 import { jsonDemo } from '../js/hmodb/demoInfoJson.js'
-import is_on from '../js/hmodb/parse.js'
 var jsonn = jsonDemo
+*/
+import is_on from '../js/hmodb/parse.js'
 
 export default {
   components: {
@@ -53,6 +56,7 @@ export default {
     f7List,
     f7ListItem
   },
+
   data() {
     const date = new Date()
     const year = date.getFullYear()
@@ -60,7 +64,7 @@ export default {
     const day = date.getDate()
     return {
       today: new Date(year, month, day),
-      events: jsonn.events,
+      //events: info.events,
       //myDotEvents: [],
       eventsOld2: [
         {
@@ -116,10 +120,19 @@ export default {
       todayItems: [] //items happenning in selected date
     }
   },
-  updated() {
-    console.log('updated')
+  computed: {
+    info() {
+      return this.$store.state.info
+    },
+    events() {
+      return this.info.events
+    }
   },
   methods: {
+    refreshCalendarTest() {
+      this.calendar.init()
+      alert('this doesnt really work...')
+    },
     refreshDotEvents(calendar) {
       console.log('dot events A', this.myDotEvents)
       const self = this
@@ -130,15 +143,17 @@ export default {
       var dotEvAux = []
       for (let offset = -40; offset < 40; offset++) {
         var auxDate = new Date(year, month, day + offset)
-        this.events.forEach(event => {
-          if (is_on(event, auxDate)) {
-            console.log('MATCH ---- ', auxDate)
-            dotEvAux.push({
-              date: auxDate,
-              color: event.color
-            })
-          }
-        })
+        if (self.events != undefined) {
+          self.events.forEach(event => {
+            if (is_on(event, auxDate)) {
+              console.log('MATCH ---- ', auxDate)
+              dotEvAux.push({
+                date: auxDate,
+                color: event.color
+              })
+            }
+          })
+        }
       }
       return dotEvAux
       //console.log('dot events B', this.myDotEvents)
@@ -158,11 +173,14 @@ export default {
 
       console.log(currentDate, currentDate.getTime())
       const currentEvents = []
-      self.events.forEach(event => {
-        if (is_on(event, currentDate)) {
-          currentEvents.push(event)
-        }
-      })
+
+      if (self.events != undefined) {
+        self.events.forEach(event => {
+          if (is_on(event, currentDate)) {
+            currentEvents.push(event)
+          }
+        })
+      }
 
       console.log('AAAAAAA', currentEvents)
       const todayItems = []

@@ -85,7 +85,8 @@ Queries could be based on
           {
             type: 'include',
             weekday: '4,6',
-            month: '7,8,9'
+            month: '7,8,9',
+            description: 'Normal basis'
           },
           {
             // exclude summer holidays (eg 15th June to 10th September)
@@ -110,7 +111,7 @@ Queries could be based on
             month: '7',
             monthday: '7,8',
             description:
-              'Event does not occur when it falls on the 7th July/August, and it is Friday or vigil day (sf)'
+              'Event does not occur when it falls on the 7th July/August, and it is Friday or vigil day (sf)' //careful: in  current version, the "/" breaks the router.
           },
           {
             // event is cancelled on the 13th and 5th September 2019
@@ -207,7 +208,7 @@ Queries could be based on
     ]
   }
 
-var jsonDemo2 = { events: [] }
+var jsonDemo2 = { events: [] } //default value with events key
 
 fetch(
   'http://thecatholicdb.com/api/select.php?json={"apiKey":"invited034","sql":"select json from temples where temple_id=4"}'

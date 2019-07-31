@@ -7,7 +7,6 @@ import RequestAndLoad from '../pages/request-and-load.vue'
 import NotFoundPage from '../pages/404.vue'
 import PanelLeft from '../pages/panel-left.vue'
 import PlansPage from '../pages/Plans.vue'
-import MessagesPage from '../pages/Messages.vue'
 import CalendarPage from '../pages/Calendar.vue'
 import HomePage from '../pages/Home.vue'
 import EventsListPage from '../pages/EventsList.vue'
@@ -15,7 +14,13 @@ import EventRulesPage from '../pages/EventRules.vue'
 import RuleDefinitionPage from '../pages/RuleDefinition.vue'
 import SettingsPage from '../pages/Settings.vue'
 
+import TestingPage from '../pages/Testing.vue'
+
 var routes = [
+  {
+    path: '/testing/',
+    component: TestingPage
+  },
   {
     path: '/settings/',
     component: SettingsPage
@@ -41,10 +46,6 @@ var routes = [
   {
     path: '/calendar/',
     component: CalendarPage
-  },
-  {
-    path: '/messages/',
-    component: MessagesPage
   },
   {
     path: '/plans/',

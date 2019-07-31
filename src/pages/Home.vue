@@ -9,6 +9,8 @@
 
     <f7-block-title>Let's test current JSON</f7-block-title>
     <f7-block>Store count: {{ countt }}</f7-block>
+    <input type="number" v-model="countt" />
+    <button @click="incrementt">+</button>
 
     <f7-list>
       <f7-list-input
@@ -44,11 +46,27 @@ export default {
     return {
       dateString: '2019-07-22',
       element: [],
-      myJson: jsonDemo,
-      countt: this.$store.state.count
+      myJson: jsonDemo
+    }
+  },
+  methods: {
+    incrementt() {
+      console.log('increment?')
+      this.$store.commit({ type: 'increment', amount: 2 })
+      //store.commit({ type: 'increment', amount: 2 })
     }
   },
   computed: {
+    countt: {
+      get() {
+        return this.$store.state.count //doesnt update!
+      },
+      set(value) {
+        console.log('set...')
+        this.$store.commit('increment2', value)
+      }
+    },
+
     myDate() {
       var auxx = new Date(this.dateString)
       auxx.setHours(0, 0, 0)
