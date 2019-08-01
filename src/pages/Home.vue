@@ -7,6 +7,9 @@
       <f7-nav-title sliding>H</f7-nav-title>
     </f7-navbar>
 
+    <f7-block>
+      <f7-link href="/temple/4">See Temple</f7-link>
+    </f7-block>
     <f7-block-title>Let's test current JSON</f7-block-title>
     <f7-block>Store count: {{ countt }}</f7-block>
     <input type="number" v-model="countt" />

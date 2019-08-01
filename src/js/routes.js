@@ -15,8 +15,14 @@ import RuleDefinitionPage from '../pages/RuleDefinition.vue'
 import SettingsPage from '../pages/Settings.vue'
 
 import TestingPage from '../pages/Testing.vue'
+import TemplePage from '../pages/Temple.vue'
 
 var routes = [
+  {
+    path: '/temple/:temple_id',
+    component: TemplePage,
+    props: true
+  },
   {
     path: '/testing/',
     component: TestingPage
